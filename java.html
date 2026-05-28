@@ -9,120 +9,189 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--transition:0.25s ease}
+:root{--transition:all 0.3s cubic-bezier(0.4,0,0.2,1)}
+
 [data-theme="dark"]{
-  --bg:#0D1117;--sidebar-bg:#161B22;--card-bg:#1C2333;--text:#E6EDF3;
-  --text-muted:#8B949E;--accent:#00D4FF;--accent-hover:#00B8E0;
-  --border:#30363D;--nav-bg:#161B22;--code-bg:#0D1117;
-  --btn-bg:#21262D;--btn-hover:#30363D;--shadow:rgba(0,0,0,0.4);
-  --section-header:#1C2333;--active-link:#00D4FF;--active-link-bg:#0D2137;
-  --key-box:#1C2333;--key-border:#00D4FF;
+  --bg:#05070F;
+  --card-bg:rgba(255,255,255,0.03);
+  --text:#F1F5F9;
+  --text-muted:#64748B;
+  --border:rgba(255,255,255,0.08);
+  --nav-bg:rgba(5,7,15,0.9);
+  --sidebar-bg:rgba(255,255,255,0.02);
+  --code-bg:rgba(255,255,255,0.04);
+  --key-box:rgba(124,58,237,0.08);
+  --key-border:#7C3AED;
+  --active-link:#00D4FF;
+  --active-link-bg:rgba(124,58,237,0.12);
+  --section-hdr:rgba(255,255,255,0.02);
+  --blob1:rgba(124,58,237,0.35);
+  --blob2:rgba(0,212,255,0.25);
+  --blob3:rgba(247,37,133,0.2);
 }
 [data-theme="light"]{
-  --bg:#FFFFFF;--sidebar-bg:#F6F8FA;--card-bg:#FFFFFF;--text:#1F2328;
-  --text-muted:#57606A;--accent:#0969DA;--accent-hover:#0550AE;
-  --border:#D0D7DE;--nav-bg:#F6F8FA;--code-bg:#F6F8FA;
-  --btn-bg:#F3F4F6;--btn-hover:#E5E7EB;--shadow:rgba(0,0,0,0.1);
-  --section-header:#F6F8FA;--active-link:#0969DA;--active-link-bg:#DDF4FF;
-  --key-box:#F0F9FF;--key-border:#0969DA;
+  --bg:#FAFAFA;
+  --card-bg:rgba(255,255,255,0.8);
+  --text:#0F172A;
+  --text-muted:#475569;
+  --border:rgba(0,0,0,0.08);
+  --nav-bg:rgba(250,250,250,0.9);
+  --sidebar-bg:rgba(255,255,255,0.7);
+  --code-bg:rgba(0,0,0,0.04);
+  --key-box:rgba(124,58,237,0.05);
+  --key-border:#7C3AED;
+  --active-link:#7C3AED;
+  --active-link-bg:rgba(124,58,237,0.08);
+  --section-hdr:rgba(0,0,0,0.02);
+  --blob1:rgba(124,58,237,0.1);
+  --blob2:rgba(0,212,255,0.08);
+  --blob3:rgba(247,37,133,0.06);
 }
+
 html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
-a{color:var(--accent);text-decoration:none}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;transition:background 0.3s ease,color 0.3s ease}
+a{text-decoration:none}
 
-/* NAVBAR */
-.navbar{position:fixed;top:0;left:0;right:0;height:56px;background:var(--nav-bg);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;z-index:1000;gap:12px}
-.nav-logo{font-size:1.2rem;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:6px;white-space:nowrap}
-.nav-logo span{font-size:1.4rem}
-.nav-progress{font-size:0.78rem;color:var(--text-muted);white-space:nowrap;margin-left:8px}
+/* ── ANIMATED BLOBS ─────────────────────────────────────────── */
+.blob-container{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.15}
+.blob-1{width:600px;height:600px;background:var(--blob1);top:-100px;left:-150px;animation:drift1 12s infinite alternate ease-in-out}
+.blob-2{width:500px;height:500px;background:var(--blob2);top:30%;right:-100px;animation:drift2 15s infinite alternate ease-in-out}
+.blob-3{width:400px;height:400px;background:var(--blob3);bottom:-80px;left:40%;animation:drift3 10s infinite alternate ease-in-out}
+@keyframes drift1{0%{transform:translate(0,0) scale(1)}100%{transform:translate(80px,60px) scale(1.1)}}
+@keyframes drift2{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-60px,80px) scale(1.15)}}
+@keyframes drift3{0%{transform:translate(0,0) scale(1)}100%{transform:translate(40px,-60px) scale(1.08)}}
+
+/* ── NAVBAR ─────────────────────────────────────────────────── */
+.navbar{position:fixed;top:0;left:0;right:0;height:60px;background:var(--nav-bg);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;z-index:1000;gap:12px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.nav-logo{font-size:1.2rem;font-weight:800;letter-spacing:-0.02em;background:linear-gradient(135deg,#7C3AED,#00D4FF,#F72585);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.nav-progress{font-size:0.78rem;color:var(--text-muted);white-space:nowrap;margin-left:8px;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.2);padding:3px 10px;border-radius:50px;font-weight:600}
 .nav-right{margin-left:auto;display:flex;align-items:center;gap:8px}
-.nav-btn{background:var(--btn-bg);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:0.82rem;font-family:'Inter',sans-serif;transition:background var(--transition),color var(--transition);display:flex;align-items:center;gap:6px;white-space:nowrap}
-.nav-btn:hover{background:var(--btn-hover);color:var(--accent)}
-.hamburger{display:none;background:var(--btn-bg);border:1px solid var(--border);color:var(--text);width:36px;height:36px;border-radius:6px;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:4px}
-.hamburger span{display:block;width:18px;height:2px;background:var(--text);border-radius:2px;transition:all 0.25s}
+.nav-btn{background:var(--card-bg);border:1px solid var(--border);color:var(--text);padding:7px 14px;border-radius:50px;cursor:pointer;font-size:0.82rem;font-family:'Inter',sans-serif;transition:var(--transition);display:flex;align-items:center;gap:6px;white-space:nowrap;backdrop-filter:blur(10px);text-decoration:none;font-weight:500}
+.nav-btn:hover{border-color:rgba(124,58,237,0.5);color:#A78BFA;box-shadow:0 0 15px rgba(124,58,237,0.2)}
+.hamburger{display:none;background:var(--card-bg);border:1px solid var(--border);color:var(--text);width:38px;height:38px;border-radius:10px;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:4px;backdrop-filter:blur(10px)}
+.hamburger span{display:block;width:18px;height:2px;background:var(--text);border-radius:2px;transition:var(--transition)}
 
-/* LAYOUT */
-.layout{display:flex;margin-top:56px;min-height:calc(100vh - 56px)}
+/* ── LAYOUT ─────────────────────────────────────────────────── */
+.layout{display:flex;margin-top:60px;min-height:calc(100vh - 60px);position:relative;z-index:1}
 
-/* SIDEBAR */
-.sidebar{width:280px;background:var(--sidebar-bg);border-right:1px solid var(--border);position:fixed;top:56px;bottom:0;left:0;overflow-y:auto;z-index:900;transition:transform var(--transition)}
+/* ── SIDEBAR ─────────────────────────────────────────────────── */
+.sidebar{width:280px;background:var(--sidebar-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-right:1px solid var(--border);position:fixed;top:60px;bottom:0;left:0;overflow-y:auto;z-index:900;transition:transform 0.3s cubic-bezier(0.4,0,0.2,1)}
 .sidebar::-webkit-scrollbar{width:4px}
 .sidebar::-webkit-scrollbar-track{background:transparent}
-.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-.section-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);background:var(--section-header);border-bottom:1px solid var(--border);user-select:none;transition:color var(--transition)}
-.section-header:hover{color:var(--accent)}
-.section-header .chevron{font-size:0.65rem;transition:transform 0.25s}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(124,58,237,0.3);border-radius:4px}
+.sidebar::-webkit-scrollbar-thumb:hover{background:rgba(124,58,237,0.5)}
+
+/* Sidebar search */
+.sidebar-search-wrap{padding:12px 14px;border-bottom:1px solid var(--border)}
+.sidebar-search{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:0.82rem;font-family:'Inter',sans-serif;color:var(--text);outline:none;transition:var(--transition)}
+[data-theme="light"] .sidebar-search{background:rgba(0,0,0,0.04)}
+.sidebar-search::placeholder{color:var(--text-muted)}
+.sidebar-search:focus{border-color:rgba(124,58,237,0.5);box-shadow:0 0 10px rgba(124,58,237,0.15)}
+
+.section-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;background:var(--section-hdr);border-bottom:1px solid var(--border);user-select:none;transition:var(--transition)}
+.section-header-text{background:linear-gradient(135deg,#7C3AED,#00D4FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.section-header:hover .section-header-text{background:linear-gradient(135deg,#A78BFA,#38BDF8)}
+.section-header .chevron{font-size:0.6rem;color:var(--text-muted);transition:transform 0.25s;-webkit-text-fill-color:initial}
 .section-header.collapsed .chevron{transform:rotate(-90deg)}
-.section-links{list-style:none}
-.section-links.hidden{display:none}
-.section-links li a{display:flex;align-items:center;gap:8px;padding:8px 16px 8px 24px;font-size:0.83rem;color:var(--text-muted);transition:color var(--transition),background var(--transition);border-left:2px solid transparent}
-.section-links li a:hover{color:var(--text);background:var(--btn-bg)}
-.section-links li a.active{color:var(--active-link);background:var(--active-link-bg);border-left-color:var(--accent);font-weight:500}
-.topic-num{font-size:0.72rem;color:var(--text-muted);min-width:20px}
 
-/* CONTENT */
-.content{margin-left:280px;flex:1;min-height:calc(100vh - 56px);display:flex;flex-direction:column}
-.content-inner{flex:1;padding:36px 48px;max-width:900px}
-.content-inner h1{font-size:2rem;font-weight:700;color:var(--text);margin-bottom:12px;line-height:1.3}
-.content-inner h2{font-size:1.35rem;font-weight:600;color:var(--text);margin:28px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
-.content-inner h3{font-size:1.1rem;font-weight:600;color:var(--accent);margin:20px 0 8px}
-.content-inner p{color:var(--text-muted);margin-bottom:14px;font-size:0.95rem;line-height:1.75}
+.sec-links{list-style:none}
+.sec-links.hidden{display:none}
+.sec-links li a{display:flex;align-items:center;gap:8px;padding:9px 16px 9px 20px;font-size:0.82rem;color:var(--text-muted);transition:var(--transition);border-left:3px solid transparent;font-weight:400}
+.sec-links li a:hover{color:var(--text);background:rgba(124,58,237,0.06);border-left-color:rgba(124,58,237,0.3);transform:translateX(4px)}
+.sec-links li a.active{background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(0,212,255,0.07));border-left-color:#7C3AED;color:#00D4FF;font-weight:600;text-shadow:0 0 10px rgba(0,212,255,0.4)}
+.topic-num{font-size:0.7rem;color:var(--text-muted);min-width:20px;font-variant-numeric:tabular-nums}
+.sec-links li.hidden-by-search{display:none}
+
+/* ── CONTENT ─────────────────────────────────────────────────── */
+.content{margin-left:280px;flex:1;min-height:calc(100vh - 60px);display:flex;flex-direction:column}
+.content-inner{flex:1;padding:2.5rem 3rem;max-width:900px}
+
+/* Topic headings */
+.content-inner h1{font-size:2.5rem;font-weight:800;letter-spacing:-0.03em;margin-bottom:14px;line-height:1.15;background:linear-gradient(135deg,var(--text),#7C3AED,#00D4FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.content-inner h2{font-size:1.35rem;font-weight:700;color:#00D4FF;margin:32px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border);letter-spacing:-0.01em}
+[data-theme="light"] .content-inner h2{color:#0284C7}
+.content-inner h3{font-size:1.08rem;font-weight:700;color:#A78BFA;margin:22px 0 10px}
+[data-theme="light"] .content-inner h3{color:#7C3AED}
+
+.content-inner p{color:var(--text-muted);margin-bottom:14px;font-size:0.95rem;line-height:1.8}
 .content-inner ul,.content-inner ol{color:var(--text-muted);padding-left:24px;margin-bottom:14px;font-size:0.95rem}
-.content-inner li{margin-bottom:6px;line-height:1.7}
-.content-inner strong{color:var(--text);font-weight:600}
-.content-inner code{font-family:'Fira Code',monospace;background:var(--btn-bg);padding:2px 6px;border-radius:4px;font-size:0.85em;color:var(--accent)}
-.content-inner pre{margin:16px 0;border-radius:10px;overflow:hidden}
-.content-inner pre code{font-family:'Fira Code',monospace;font-size:0.875rem;background:transparent;padding:0;color:inherit}
-.content-inner pre[class*=language-]{border-radius:10px;margin:16px 0}
-.concept-box{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin:16px 0}
-.concept-box h3{margin-top:0;font-size:1rem}
-.key-points{background:var(--key-box);border-left:4px solid var(--key-border);border-radius:0 10px 10px 0;padding:20px 24px;margin:28px 0 16px}
-.key-points h3{color:var(--accent);margin-top:0;margin-bottom:12px;font-size:1rem}
-.key-points ul{color:var(--text-muted);padding-left:20px;font-size:0.9rem}
-.key-points li{margin-bottom:5px}
-.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.75rem;font-weight:600;background:var(--accent);color:#000;margin-right:6px;margin-bottom:4px}
-.info-box{background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);border-radius:8px;padding:14px 18px;margin:14px 0;font-size:0.9rem;color:var(--text-muted)}
-[data-theme="light"] .info-box{background:rgba(9,105,218,0.06);border-color:rgba(9,105,218,0.2)}
+.content-inner li{margin-bottom:6px;line-height:1.75}
+.content-inner strong{color:var(--text);font-weight:700}
+.content-inner a{color:#00D4FF}
+[data-theme="light"] .content-inner a{color:#7C3AED}
 
-/* BOTTOM NAV */
-.bottom-nav{display:flex;justify-content:space-between;align-items:center;padding:24px 48px;border-top:1px solid var(--border);gap:12px}
-.bottom-nav-btn{background:var(--btn-bg);border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:8px;cursor:pointer;font-size:0.88rem;font-family:'Inter',sans-serif;transition:all var(--transition);display:flex;align-items:center;gap:8px}
-.bottom-nav-btn:hover{background:var(--accent);color:#000;border-color:var(--accent)}
+.content-inner code{font-family:'Fira Code',monospace;background:rgba(124,58,237,0.12);padding:2px 7px;border-radius:5px;font-size:0.85em;color:#A78BFA;border:1px solid rgba(124,58,237,0.2)}
+[data-theme="light"] .content-inner code{background:rgba(124,58,237,0.07);color:#7C3AED;border-color:rgba(124,58,237,0.15)}
+
+/* Code blocks — add header label via ::before on parent */
+.content-inner pre{margin:20px 0;border-radius:12px;overflow:hidden;border:1px solid rgba(124,58,237,0.25);box-shadow:0 0 20px rgba(124,58,237,0.08),inset 0 0 0 1px rgba(255,255,255,0.02);position:relative}
+.content-inner pre::before{content:"Java";display:block;font-family:'Fira Code',monospace;font-size:0.7rem;font-weight:700;color:#A78BFA;letter-spacing:0.08em;text-transform:uppercase;padding:7px 16px;background:rgba(124,58,237,0.1);border-bottom:1px solid rgba(124,58,237,0.2);background-image:linear-gradient(90deg,rgba(124,58,237,0.15),transparent)}
+.content-inner pre code{font-family:'Fira Code',monospace;font-size:0.875rem;background:transparent;padding:0;color:inherit;border:none}
+.content-inner pre[class*=language-]{border-radius:12px;margin:20px 0}
+
+/* Concept boxes */
+.concept-box,.cbox{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin:18px 0;backdrop-filter:blur(10px)}
+.concept-box h3,.cbox h3{margin-top:0;font-size:1rem;color:#A78BFA;margin-bottom:10px}
+[data-theme="light"] .cbox h3,[data-theme="light"] .concept-box h3{color:#7C3AED}
+
+/* Key Points */
+.key-points,.kp{background:var(--key-box);border-left:4px solid var(--key-border);border-radius:0 14px 14px 0;padding:20px 24px;margin:28px 0 18px;backdrop-filter:blur(10px);box-shadow:0 0 20px rgba(124,58,237,0.06)}
+.key-points h3,.kp h3{background:linear-gradient(135deg,#7C3AED,#00D4FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:0;margin-bottom:12px;font-size:1rem;font-weight:700}
+.key-points ul,.kp ul{color:var(--text-muted);padding-left:20px;font-size:0.9rem}
+.key-points li,.kp li{margin-bottom:6px;line-height:1.7}
+
+.badge{display:inline-block;padding:3px 10px;border-radius:50px;font-size:0.72rem;font-weight:700;background:linear-gradient(135deg,#7C3AED,#00D4FF);color:#fff;margin-right:6px;margin-bottom:4px;letter-spacing:0.03em}
+.info-box{background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:14px 18px;margin:16px 0;font-size:0.9rem;color:var(--text-muted);border-left:3px solid #00D4FF}
+[data-theme="light"] .info-box{background:rgba(124,58,237,0.05);border-color:rgba(124,58,237,0.2);border-left-color:#7C3AED}
+
+/* ── BOTTOM NAV ─────────────────────────────────────────────── */
+.bottom-nav{display:flex;justify-content:space-between;align-items:center;padding:2rem 3rem;border-top:1px solid var(--border);gap:1rem;background:transparent}
+.bottom-nav-btn{border:1px solid var(--border);color:var(--text);padding:0.75rem 1.75rem;border-radius:50px;cursor:pointer;font-size:0.9rem;font-family:'Inter',sans-serif;font-weight:600;transition:var(--transition);display:flex;align-items:center;gap:8px;background:var(--card-bg);backdrop-filter:blur(10px);text-decoration:none}
+.bottom-nav-btn:hover:not(:disabled){border-color:rgba(124,58,237,0.5);color:#A78BFA;box-shadow:0 0 25px rgba(124,58,237,0.25);transform:translateY(-1px)}
 .bottom-nav-btn:disabled{opacity:0.3;cursor:not-allowed}
-.bottom-nav-btn:disabled:hover{background:var(--btn-bg);color:var(--text);border-color:var(--border)}
-.home-btn-bottom{background:var(--accent);color:#000;border-color:var(--accent)}
-.home-btn-bottom:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+.bottom-nav-btn:disabled:hover{background:var(--card-bg);color:var(--text);border-color:var(--border);box-shadow:none;transform:none}
+.home-btn-bottom{background:linear-gradient(135deg,#7C3AED,#00D4FF);color:#fff !important;border:none;box-shadow:0 0 25px rgba(124,58,237,0.35)}
+.home-btn-bottom:hover{box-shadow:0 0 40px rgba(124,58,237,0.55) !important;transform:translateY(-2px) !important}
 
-/* OVERLAY */
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:850}
+/* ── OVERLAY ─────────────────────────────────────────────────── */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(5,7,15,0.6);z-index:850;backdrop-filter:blur(4px)}
 .sidebar-overlay.active{display:block}
 
-/* RESPONSIVE */
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
 @media(max-width:768px){
   .hamburger{display:flex}
   .sidebar{transform:translateX(-100%)}
   .sidebar.open{transform:translateX(0)}
   .content{margin-left:0}
-  .content-inner{padding:24px 20px}
-  .bottom-nav{padding:16px 20px}
+  .content-inner{padding:1.5rem 1.25rem}
+  .bottom-nav{padding:1.25rem}
   .nav-progress{display:none}
+  .content-inner h1{font-size:1.9rem}
 }
 @media(max-width:480px){
-  .content-inner h1{font-size:1.5rem}
-  .content-inner{padding:20px 16px}
-  .bottom-nav{padding:12px 16px}
-  .bottom-nav-btn{padding:8px 12px;font-size:0.8rem}
+  .content-inner h1{font-size:1.6rem}
+  .content-inner{padding:1.25rem 1rem}
+  .bottom-nav{padding:1rem;gap:0.5rem}
+  .bottom-nav-btn{padding:0.65rem 1rem;font-size:0.82rem}
 }
 </style>
 </head>
 <body>
 
+<!-- Animated background blobs -->
+<div class="blob-container" aria-hidden="true">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
 <nav class="navbar">
-  <div class="nav-logo"><span>&#8734;</span> EndlessLearn</div>
+  <a href="index.html" class="nav-logo">&#8734; EndlessLearn</a>
   <span class="nav-progress" id="navProgress">Topic 1 of 47</span>
   <div class="nav-right">
     <a href="index.html" class="nav-btn">&#8962; Home</a>
-    <button class="nav-btn" id="themeToggle" onclick="toggleTheme()">&#9790; Dark</button>
+    <button class="nav-btn" id="themeBtn" onclick="toggleTheme()">&#9790; Light</button>
     <button class="hamburger" id="hamburger" onclick="toggleSidebar()">
       <span></span><span></span><span></span>
     </button>
@@ -133,72 +202,75 @@ a{color:var(--accent);text-decoration:none}
 
 <div class="layout">
 <aside class="sidebar" id="sidebar">
+  <div class="sidebar-search-wrap">
+    <input type="search" class="sidebar-search" id="sidebarSearch" placeholder="&#128269; Search topics..." oninput="filterSidebar(this.value)" autocomplete="off">
+  </div>
   <div>
     <div class="section-header" onclick="toggleSection(this)">
-      <span>&#9654; Java Core</span><span class="chevron">&#9660;</span>
+      <span class="section-header-text">&#9654; Java Core</span><span class="chevron">&#9660;</span>
     </div>
-    <ul class="section-links" id="sec-java">
-      <li><a href="#java-1" onclick="closeSidebar()"><span class="topic-num">1</span> Introduction to Java</a></li>
-      <li><a href="#java-2" onclick="closeSidebar()"><span class="topic-num">2</span> JDK, JRE &amp; JVM</a></li>
-      <li><a href="#java-3" onclick="closeSidebar()"><span class="topic-num">3</span> Variables &amp; Data Types</a></li>
-      <li><a href="#java-4" onclick="closeSidebar()"><span class="topic-num">4</span> Operators</a></li>
-      <li><a href="#java-5" onclick="closeSidebar()"><span class="topic-num">5</span> Control Flow</a></li>
-      <li><a href="#java-6" onclick="closeSidebar()"><span class="topic-num">6</span> Loops</a></li>
-      <li><a href="#java-7" onclick="closeSidebar()"><span class="topic-num">7</span> Arrays</a></li>
-      <li><a href="#java-8" onclick="closeSidebar()"><span class="topic-num">8</span> Methods &amp; Functions</a></li>
-      <li><a href="#java-9" onclick="closeSidebar()"><span class="topic-num">9</span> OOP - Classes &amp; Objects</a></li>
-      <li><a href="#java-10" onclick="closeSidebar()"><span class="topic-num">10</span> Constructors</a></li>
-      <li><a href="#java-11" onclick="closeSidebar()"><span class="topic-num">11</span> Inheritance</a></li>
-      <li><a href="#java-12" onclick="closeSidebar()"><span class="topic-num">12</span> Polymorphism</a></li>
-      <li><a href="#java-13" onclick="closeSidebar()"><span class="topic-num">13</span> Abstraction &amp; Interfaces</a></li>
-      <li><a href="#java-14" onclick="closeSidebar()"><span class="topic-num">14</span> Encapsulation</a></li>
-      <li><a href="#java-15" onclick="closeSidebar()"><span class="topic-num">15</span> Packages &amp; Import</a></li>
-      <li><a href="#java-16" onclick="closeSidebar()"><span class="topic-num">16</span> Exception Handling</a></li>
-      <li><a href="#java-17" onclick="closeSidebar()"><span class="topic-num">17</span> Strings &amp; StringBuilder</a></li>
-      <li><a href="#java-18" onclick="closeSidebar()"><span class="topic-num">18</span> Collections Framework</a></li>
-      <li><a href="#java-19" onclick="closeSidebar()"><span class="topic-num">19</span> Generics</a></li>
-      <li><a href="#java-20" onclick="closeSidebar()"><span class="topic-num">20</span> Java 8+ Features</a></li>
+    <ul class="sec-links" id="sec-java">
+      <li><a id="link-java-1" href="#java-1" onclick="showTopic('java-1');closeSidebar();return false"><span class="topic-num">01</span> Introduction to Java</a></li>
+      <li><a id="link-java-2" href="#java-2" onclick="showTopic('java-2');closeSidebar();return false"><span class="topic-num">02</span> JDK, JRE &amp; JVM</a></li>
+      <li><a id="link-java-3" href="#java-3" onclick="showTopic('java-3');closeSidebar();return false"><span class="topic-num">03</span> Variables &amp; Data Types</a></li>
+      <li><a id="link-java-4" href="#java-4" onclick="showTopic('java-4');closeSidebar();return false"><span class="topic-num">04</span> Operators</a></li>
+      <li><a id="link-java-5" href="#java-5" onclick="showTopic('java-5');closeSidebar();return false"><span class="topic-num">05</span> Control Flow</a></li>
+      <li><a id="link-java-6" href="#java-6" onclick="showTopic('java-6');closeSidebar();return false"><span class="topic-num">06</span> Loops</a></li>
+      <li><a id="link-java-7" href="#java-7" onclick="showTopic('java-7');closeSidebar();return false"><span class="topic-num">07</span> Arrays</a></li>
+      <li><a id="link-java-8" href="#java-8" onclick="showTopic('java-8');closeSidebar();return false"><span class="topic-num">08</span> Methods &amp; Functions</a></li>
+      <li><a id="link-java-9" href="#java-9" onclick="showTopic('java-9');closeSidebar();return false"><span class="topic-num">09</span> OOP - Classes &amp; Objects</a></li>
+      <li><a id="link-java-10" href="#java-10" onclick="showTopic('java-10');closeSidebar();return false"><span class="topic-num">10</span> Constructors</a></li>
+      <li><a id="link-java-11" href="#java-11" onclick="showTopic('java-11');closeSidebar();return false"><span class="topic-num">11</span> Inheritance</a></li>
+      <li><a id="link-java-12" href="#java-12" onclick="showTopic('java-12');closeSidebar();return false"><span class="topic-num">12</span> Polymorphism</a></li>
+      <li><a id="link-java-13" href="#java-13" onclick="showTopic('java-13');closeSidebar();return false"><span class="topic-num">13</span> Abstraction &amp; Interfaces</a></li>
+      <li><a id="link-java-14" href="#java-14" onclick="showTopic('java-14');closeSidebar();return false"><span class="topic-num">14</span> Encapsulation</a></li>
+      <li><a id="link-java-15" href="#java-15" onclick="showTopic('java-15');closeSidebar();return false"><span class="topic-num">15</span> Packages &amp; Import</a></li>
+      <li><a id="link-java-16" href="#java-16" onclick="showTopic('java-16');closeSidebar();return false"><span class="topic-num">16</span> Exception Handling</a></li>
+      <li><a id="link-java-17" href="#java-17" onclick="showTopic('java-17');closeSidebar();return false"><span class="topic-num">17</span> Strings &amp; StringBuilder</a></li>
+      <li><a id="link-java-18" href="#java-18" onclick="showTopic('java-18');closeSidebar();return false"><span class="topic-num">18</span> Collections Framework</a></li>
+      <li><a id="link-java-19" href="#java-19" onclick="showTopic('java-19');closeSidebar();return false"><span class="topic-num">19</span> Generics</a></li>
+      <li><a id="link-java-20" href="#java-20" onclick="showTopic('java-20');closeSidebar();return false"><span class="topic-num">20</span> Java 8+ Features</a></li>
     </ul>
   </div>
   <div>
     <div class="section-header" onclick="toggleSection(this)">
-      <span>&#9654; Advanced Java</span><span class="chevron">&#9660;</span>
+      <span class="section-header-text">&#9654; Advanced Java</span><span class="chevron">&#9660;</span>
     </div>
-    <ul class="section-links" id="sec-adv">
-      <li><a href="#adv-1" onclick="closeSidebar()"><span class="topic-num">1</span> Multithreading &amp; Concurrency</a></li>
-      <li><a href="#adv-2" onclick="closeSidebar()"><span class="topic-num">2</span> Java I/O Streams</a></li>
-      <li><a href="#adv-3" onclick="closeSidebar()"><span class="topic-num">3</span> JDBC</a></li>
-      <li><a href="#adv-4" onclick="closeSidebar()"><span class="topic-num">4</span> Servlets</a></li>
-      <li><a href="#adv-5" onclick="closeSidebar()"><span class="topic-num">5</span> JSP</a></li>
-      <li><a href="#adv-6" onclick="closeSidebar()"><span class="topic-num">6</span> Spring Framework Core</a></li>
-      <li><a href="#adv-7" onclick="closeSidebar()"><span class="topic-num">7</span> Spring Boot</a></li>
-      <li><a href="#adv-8" onclick="closeSidebar()"><span class="topic-num">8</span> Spring MVC</a></li>
-      <li><a href="#adv-9" onclick="closeSidebar()"><span class="topic-num">9</span> Spring Data JPA</a></li>
-      <li><a href="#adv-10" onclick="closeSidebar()"><span class="topic-num">10</span> Spring Security</a></li>
-      <li><a href="#adv-11" onclick="closeSidebar()"><span class="topic-num">11</span> REST APIs with Spring Boot</a></li>
-      <li><a href="#adv-12" onclick="closeSidebar()"><span class="topic-num">12</span> Microservices Architecture</a></li>
+    <ul class="sec-links" id="sec-adv">
+      <li><a id="link-adv-1" href="#adv-1" onclick="showTopic('adv-1');closeSidebar();return false"><span class="topic-num">01</span> Multithreading &amp; Concurrency</a></li>
+      <li><a id="link-adv-2" href="#adv-2" onclick="showTopic('adv-2');closeSidebar();return false"><span class="topic-num">02</span> Java I/O Streams</a></li>
+      <li><a id="link-adv-3" href="#adv-3" onclick="showTopic('adv-3');closeSidebar();return false"><span class="topic-num">03</span> JDBC</a></li>
+      <li><a id="link-adv-4" href="#adv-4" onclick="showTopic('adv-4');closeSidebar();return false"><span class="topic-num">04</span> Servlets</a></li>
+      <li><a id="link-adv-5" href="#adv-5" onclick="showTopic('adv-5');closeSidebar();return false"><span class="topic-num">05</span> JSP</a></li>
+      <li><a id="link-adv-6" href="#adv-6" onclick="showTopic('adv-6');closeSidebar();return false"><span class="topic-num">06</span> Spring Framework Core</a></li>
+      <li><a id="link-adv-7" href="#adv-7" onclick="showTopic('adv-7');closeSidebar();return false"><span class="topic-num">07</span> Spring Boot</a></li>
+      <li><a id="link-adv-8" href="#adv-8" onclick="showTopic('adv-8');closeSidebar();return false"><span class="topic-num">08</span> Spring MVC</a></li>
+      <li><a id="link-adv-9" href="#adv-9" onclick="showTopic('adv-9');closeSidebar();return false"><span class="topic-num">09</span> Spring Data JPA</a></li>
+      <li><a id="link-adv-10" href="#adv-10" onclick="showTopic('adv-10');closeSidebar();return false"><span class="topic-num">10</span> Spring Security</a></li>
+      <li><a id="link-adv-11" href="#adv-11" onclick="showTopic('adv-11');closeSidebar();return false"><span class="topic-num">11</span> REST APIs with Spring Boot</a></li>
+      <li><a id="link-adv-12" href="#adv-12" onclick="showTopic('adv-12');closeSidebar();return false"><span class="topic-num">12</span> Microservices Architecture</a></li>
     </ul>
   </div>
   <div>
     <div class="section-header" onclick="toggleSection(this)">
-      <span>&#9654; DSA in Java</span><span class="chevron">&#9660;</span>
+      <span class="section-header-text">&#9654; DSA in Java</span><span class="chevron">&#9660;</span>
     </div>
-    <ul class="section-links" id="sec-dsa">
-      <li><a href="#dsa-1" onclick="closeSidebar()"><span class="topic-num">1</span> Big O Notation</a></li>
-      <li><a href="#dsa-2" onclick="closeSidebar()"><span class="topic-num">2</span> Arrays &amp; String Problems</a></li>
-      <li><a href="#dsa-3" onclick="closeSidebar()"><span class="topic-num">3</span> Linked Lists</a></li>
-      <li><a href="#dsa-4" onclick="closeSidebar()"><span class="topic-num">4</span> Stacks</a></li>
-      <li><a href="#dsa-5" onclick="closeSidebar()"><span class="topic-num">5</span> Queues</a></li>
-      <li><a href="#dsa-6" onclick="closeSidebar()"><span class="topic-num">6</span> Binary Trees</a></li>
-      <li><a href="#dsa-7" onclick="closeSidebar()"><span class="topic-num">7</span> Binary Search Trees</a></li>
-      <li><a href="#dsa-8" onclick="closeSidebar()"><span class="topic-num">8</span> Heaps &amp; Priority Queue</a></li>
-      <li><a href="#dsa-9" onclick="closeSidebar()"><span class="topic-num">9</span> Graphs</a></li>
-      <li><a href="#dsa-10" onclick="closeSidebar()"><span class="topic-num">10</span> BFS &amp; DFS</a></li>
-      <li><a href="#dsa-11" onclick="closeSidebar()"><span class="topic-num">11</span> Sorting Algorithms</a></li>
-      <li><a href="#dsa-12" onclick="closeSidebar()"><span class="topic-num">12</span> Binary Search</a></li>
-      <li><a href="#dsa-13" onclick="closeSidebar()"><span class="topic-num">13</span> Dynamic Programming</a></li>
-      <li><a href="#dsa-14" onclick="closeSidebar()"><span class="topic-num">14</span> Recursion &amp; Backtracking</a></li>
-      <li><a href="#dsa-15" onclick="closeSidebar()"><span class="topic-num">15</span> Hashing &amp; HashMaps</a></li>
+    <ul class="sec-links" id="sec-dsa">
+      <li><a id="link-dsa-1" href="#dsa-1" onclick="showTopic('dsa-1');closeSidebar();return false"><span class="topic-num">01</span> Big O Notation</a></li>
+      <li><a id="link-dsa-2" href="#dsa-2" onclick="showTopic('dsa-2');closeSidebar();return false"><span class="topic-num">02</span> Arrays &amp; String Problems</a></li>
+      <li><a id="link-dsa-3" href="#dsa-3" onclick="showTopic('dsa-3');closeSidebar();return false"><span class="topic-num">03</span> Linked Lists</a></li>
+      <li><a id="link-dsa-4" href="#dsa-4" onclick="showTopic('dsa-4');closeSidebar();return false"><span class="topic-num">04</span> Stacks</a></li>
+      <li><a id="link-dsa-5" href="#dsa-5" onclick="showTopic('dsa-5');closeSidebar();return false"><span class="topic-num">05</span> Queues</a></li>
+      <li><a id="link-dsa-6" href="#dsa-6" onclick="showTopic('dsa-6');closeSidebar();return false"><span class="topic-num">06</span> Binary Trees</a></li>
+      <li><a id="link-dsa-7" href="#dsa-7" onclick="showTopic('dsa-7');closeSidebar();return false"><span class="topic-num">07</span> Binary Search Trees</a></li>
+      <li><a id="link-dsa-8" href="#dsa-8" onclick="showTopic('dsa-8');closeSidebar();return false"><span class="topic-num">08</span> Heaps &amp; Priority Queue</a></li>
+      <li><a id="link-dsa-9" href="#dsa-9" onclick="showTopic('dsa-9');closeSidebar();return false"><span class="topic-num">09</span> Graphs</a></li>
+      <li><a id="link-dsa-10" href="#dsa-10" onclick="showTopic('dsa-10');closeSidebar();return false"><span class="topic-num">10</span> BFS &amp; DFS</a></li>
+      <li><a id="link-dsa-11" href="#dsa-11" onclick="showTopic('dsa-11');closeSidebar();return false"><span class="topic-num">11</span> Sorting Algorithms</a></li>
+      <li><a id="link-dsa-12" href="#dsa-12" onclick="showTopic('dsa-12');closeSidebar();return false"><span class="topic-num">12</span> Binary Search</a></li>
+      <li><a id="link-dsa-13" href="#dsa-13" onclick="showTopic('dsa-13');closeSidebar();return false"><span class="topic-num">13</span> Dynamic Programming</a></li>
+      <li><a id="link-dsa-14" href="#dsa-14" onclick="showTopic('dsa-14');closeSidebar();return false"><span class="topic-num">14</span> Recursion &amp; Backtracking</a></li>
+      <li><a id="link-dsa-15" href="#dsa-15" onclick="showTopic('dsa-15');closeSidebar();return false"><span class="topic-num">15</span> Hashing &amp; HashMaps</a></li>
     </ul>
   </div>
 </aside>
@@ -206,9 +278,9 @@ a{color:var(--accent);text-decoration:none}
 <main class="content">
   <div class="content-inner" id="contentArea"></div>
   <nav class="bottom-nav">
-    <button class="bottom-nav-btn" id="prevBtn" onclick="navigate(-1)">&#8592; Prev Topic</button>
+    <button class="bottom-nav-btn" id="prevBtn" onclick="navigate(-1)">&#8592; Prev</button>
     <a href="index.html" class="bottom-nav-btn home-btn-bottom">&#8962; Home</a>
-    <button class="bottom-nav-btn" id="nextBtn" onclick="navigate(1)">Next Topic &#8594;</button>
+    <button class="bottom-nav-btn" id="nextBtn" onclick="navigate(1)">Next &#8594;</button>
   </nav>
 </main>
 </div>
@@ -5890,6 +5962,27 @@ function toggleTheme() {
   html.setAttribute('data-theme', newTheme);
   localStorage.setItem('theme', newTheme);
   document.getElementById('themeBtn').textContent = newTheme === 'dark' ? '☀ Light' : '☾ Dark';
+}
+
+// ── Sidebar search filter ───────────────────────────────────────
+function filterSidebar(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('.sec-links li').forEach(li => {
+    if (!q) {
+      li.classList.remove('hidden-by-search');
+    } else {
+      const text = li.textContent.toLowerCase();
+      li.classList.toggle('hidden-by-search', !text.includes(q));
+    }
+  });
+  // Expand all sections when searching so results are visible
+  if (q) {
+    document.querySelectorAll('.sec-links.hidden').forEach(ul => {
+      ul.classList.remove('hidden');
+      const hdr = ul.previousElementSibling;
+      if (hdr) hdr.classList.remove('collapsed');
+    });
+  }
 }
 
 document.addEventListener('keydown', e => {

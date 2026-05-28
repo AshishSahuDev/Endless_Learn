@@ -1,255 +1,795 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Endless Learn — Programming Courses</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EndlessLearn — Learn Java Like a Senior Dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root[data-theme="dark"]{
-  --bg:#0F1117;--bg2:#1A1D27;--bg3:#21263A;
-  --border:rgba(255,255,255,.08);--text:#E2E8F0;--muted:#8892A4;
-  --card:#1E2235;--card-hover:#252A40;
-  --primary:#6C63FF;--primary2:#8B84FF;
-  --shadow:0 8px 32px rgba(0,0,0,.5);
+
+:root {
+  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
 }
-:root[data-theme="light"]{
-  --bg:#F8F9FD;--bg2:#FFFFFF;--bg3:#EEF0F8;
-  --border:rgba(0,0,0,.1);--text:#1A1D27;--muted:#64748B;
-  --card:#FFFFFF;--card-hover:#F1F3FF;
-  --primary:#5B52F0;--primary2:#7C75FF;
-  --shadow:0 8px 32px rgba(0,0,0,.1);
+
+[data-theme="dark"] {
+  --bg: #05070F;
+  --card-bg: rgba(255,255,255,0.03);
+  --text: #F1F5F9;
+  --text-muted: #64748B;
+  --border: rgba(255,255,255,0.08);
+  --navbar-bg: rgba(5,7,15,0.85);
+  --blob1: rgba(124,58,237,0.35);
+  --blob2: rgba(0,212,255,0.25);
+  --blob3: rgba(247,37,133,0.2);
 }
-html,body{min-height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);transition:background .3s,color .3s}
 
-/* NAV */
-nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
-.nav-logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.2rem;color:var(--primary);display:flex;align-items:center;gap:8px}
-.nav-logo i{font-size:1rem}
-.nav-right{display:flex;align-items:center;gap:12px}
-.theme-btn{background:var(--bg3);border:1px solid var(--border);color:var(--muted);width:38px;height:38px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:.2s}
-.theme-btn:hover{color:var(--primary);border-color:var(--primary)}
-.nav-badge{background:rgba(108,99,255,.15);color:var(--primary);border:1px solid rgba(108,99,255,.3);padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600;font-family:'Fira Code',monospace}
+[data-theme="light"] {
+  --bg: #FAFAFA;
+  --card-bg: rgba(255,255,255,0.85);
+  --text: #0F172A;
+  --text-muted: #475569;
+  --border: rgba(0,0,0,0.08);
+  --navbar-bg: rgba(250,250,250,0.85);
+  --blob1: rgba(124,58,237,0.12);
+  --blob2: rgba(0,212,255,0.1);
+  --blob3: rgba(247,37,133,0.08);
+}
 
-/* HERO */
-.hero{text-align:center;padding:80px 20px 60px}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.2);color:var(--primary);padding:6px 16px;border-radius:20px;font-size:.78rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px}
-.hero h1{font-family:'Poppins',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:800;line-height:1.15;margin-bottom:16px}
-.hero h1 span{background:linear-gradient(135deg,var(--primary),var(--primary2),#EC4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero p{color:var(--muted);font-size:1.05rem;max-width:520px;margin:0 auto 36px;line-height:1.8}
-.hero-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
-.hs{text-align:center}
-.hs .n{font-family:'Poppins',sans-serif;font-size:1.8rem;font-weight:800;color:var(--primary)}
-.hs .l{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+html { scroll-behavior: smooth; }
 
-/* SEARCH */
-.search-wrap{max-width:480px;margin:0 auto 48px;position:relative}
-.search-wrap input{width:100%;padding:13px 20px 13px 44px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:.95rem;outline:none;font-family:'Inter',sans-serif;transition:.2s}
-.search-wrap input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(108,99,255,.15)}
-.search-wrap input::placeholder{color:var(--muted)}
-.search-wrap i{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
+}
 
-/* GRID */
-.section-label{font-size:.72rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;font-family:'Fira Code',monospace}
-.section-title{font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:700;margin-bottom:32px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;padding:0 24px;max-width:1200px;margin:0 auto}
+/* ── ANIMATED BLOBS ─────────────────────────────────────────── */
+.blob-container {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+}
+.blob-1 {
+  width: 600px; height: 600px;
+  background: var(--blob1);
+  top: -100px; left: -150px;
+  animation: drift1 12s infinite alternate ease-in-out;
+}
+.blob-2 {
+  width: 500px; height: 500px;
+  background: var(--blob2);
+  top: 30%; right: -100px;
+  animation: drift2 15s infinite alternate ease-in-out;
+}
+.blob-3 {
+  width: 400px; height: 400px;
+  background: var(--blob3);
+  bottom: -80px; left: 40%;
+  animation: drift3 10s infinite alternate ease-in-out;
+}
+@keyframes drift1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(80px, 60px) scale(1.1); }
+}
+@keyframes drift2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-60px, 80px) scale(1.15); }
+}
+@keyframes drift3 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(40px, -60px) scale(1.08); }
+}
 
-/* CARD */
-.course-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;cursor:pointer;transition:transform .25s,box-shadow .25px,border-color .25s,background .25s;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block}
-.course-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--c,var(--primary));transform:scaleX(0);transform-origin:left;transition:transform .3s}
-.course-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);background:var(--card-hover);border-color:var(--c,var(--primary))}
-.course-card:hover::before{transform:scaleX(1)}
-.card-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:16px}
-.card-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:1.05rem;margin-bottom:8px}
-.card-desc{font-size:.84rem;color:var(--muted);line-height:1.7;margin-bottom:16px}
-.card-meta{display:flex;justify-content:space-between;align-items:center}
-.card-topics{font-size:.75rem;color:var(--muted)}
-.card-badge{padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
-.badge-available{background:rgba(16,185,129,.15);color:#10B981}
-.badge-soon{background:rgba(100,116,139,.15);color:#64748B}
-.card-arrow{color:var(--primary);font-size:.9rem;transition:transform .2s}
-.course-card:hover .card-arrow{transform:translateX(4px)}
+/* ── NAVBAR ─────────────────────────────────────────────────── */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  gap: 1rem;
+  background: var(--navbar-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: var(--transition);
+}
 
-/* COMING SOON overlay */
-.cs-overlay{position:absolute;inset:0;background:rgba(15,17,23,.6);display:flex;align-items:center;justify-content:center;border-radius:16px;backdrop-filter:blur(2px)}
-.cs-label{background:var(--bg3);border:1px solid var(--border);color:var(--muted);padding:8px 20px;border-radius:20px;font-size:.8rem;font-weight:600;font-family:'Fira Code',monospace}
+.nav-logo {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #7C3AED, #00D4FF, #F72585);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-decoration: none;
+  white-space: nowrap;
+}
 
-/* FEATURES */
-.features{padding:60px 24px;max-width:1200px;margin:40px auto 0}
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:24px}
-.feat-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;gap:14px;align-items:flex-start}
-.feat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
-.feat-title{font-weight:700;font-size:.9rem;margin-bottom:4px;font-family:'Poppins',sans-serif}
-.feat-desc{font-size:.8rem;color:var(--muted);line-height:1.6}
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
 
-/* FOOTER */
-footer{margin-top:80px;border-top:1px solid var(--border);padding:28px 24px;text-align:center;color:var(--muted);font-size:.82rem}
-footer span{color:var(--primary)}
+.nav-cta {
+  background: linear-gradient(135deg, #7C3AED, #00D4FF);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: var(--transition);
+  box-shadow: 0 0 20px rgba(124,58,237,0.3);
+}
+.nav-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 30px rgba(124,58,237,0.5);
+}
 
-/* RESPONSIVE */
-@media(max-width:600px){.hero{padding:50px 16px 40px}.hero-stats{gap:24px}.grid{padding:0 16px}.features{padding:40px 16px}}
+.theme-toggle {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+}
+.theme-toggle:hover {
+  border-color: #7C3AED;
+  box-shadow: 0 0 15px rgba(124,58,237,0.3);
+}
+
+/* ── HERO ───────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 6rem 2rem 4rem;
+}
+
+.hero-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(124,58,237,0.12);
+  border: 1px solid rgba(124,58,237,0.3);
+  color: #A78BFA;
+  padding: 0.35rem 1rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.25rem;
+  background: linear-gradient(135deg, var(--text) 0%, #7C3AED 50%, #00D4FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #7C3AED, #00D4FF);
+  color: #fff;
+  border: none;
+  padding: 0.875rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition);
+  box-shadow: 0 0 30px rgba(124,58,237,0.4);
+}
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 0 50px rgba(124,58,237,0.6);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.875rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+}
+.btn-ghost:hover {
+  border-color: #7C3AED;
+  color: #A78BFA;
+  box-shadow: 0 0 20px rgba(124,58,237,0.2);
+}
+
+.hero-stats {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.stat-pill {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: var(--transition);
+}
+.stat-pill:hover {
+  border-color: rgba(124,58,237,0.4);
+  color: var(--text);
+}
+
+/* Code card */
+.hero-right { position: relative; }
+
+.code-card {
+  background: rgba(5,7,15,0.9);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.4), 0 0 40px rgba(124,58,237,0.15);
+  transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+  transition: var(--transition);
+}
+[data-theme="light"] .code-card {
+  background: rgba(248,248,255,0.97);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.12), 0 0 40px rgba(124,58,237,0.1);
+}
+.code-card:hover {
+  transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.5), 0 0 60px rgba(124,58,237,0.25);
+}
+
+.code-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+[data-theme="light"] .code-titlebar {
+  background: rgba(0,0,0,0.04);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.dot-red { background: #FF5F57; }
+.dot-yellow { background: #FEBC2E; }
+.dot-green { background: #28C840; }
+
+.code-filename {
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+  font-family: 'Fira Code', monospace;
+  color: var(--text-muted);
+}
+
+.code-body {
+  padding: 1.5rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.82rem;
+  line-height: 1.9;
+  overflow-x: auto;
+}
+
+.code-line { display: flex; gap: 1.5rem; }
+.ln { color: rgba(255,255,255,0.2); user-select: none; min-width: 1.5rem; text-align: right; }
+[data-theme="light"] .ln { color: rgba(0,0,0,0.2); }
+.kw { color: #C792EA; }
+.fn { color: #82AAFF; }
+.str { color: #C3E88D; }
+.cm { color: #546E7A; font-style: italic; }
+.tp { color: #FFCB6B; }
+[data-theme="light"] .kw { color: #7C3AED; }
+[data-theme="light"] .fn { color: #0284C7; }
+[data-theme="light"] .str { color: #2D8A4E; }
+[data-theme="light"] .cm { color: #94A3B8; }
+[data-theme="light"] .tp { color: #C45D00; }
+.code-plain { color: #E6EDF3; }
+[data-theme="light"] .code-plain { color: #1E293B; }
+
+.hero-right::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(124,58,237,0.5), rgba(0,212,255,0.3), rgba(247,37,133,0.3));
+  z-index: -1;
+  filter: blur(20px);
+  opacity: 0.5;
+  animation: glowPulse 3s ease-in-out infinite alternate;
+}
+@keyframes glowPulse {
+  0%   { opacity: 0.3; transform: scale(0.98); }
+  100% { opacity: 0.6; transform: scale(1.02); }
+}
+
+/* ── SECTIONS ───────────────────────────────────────────────── */
+.section {
+  position: relative;
+  z-index: 1;
+  padding: 5rem 2rem;
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(135deg, #7C3AED, #00D4FF, #F72585);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-sub {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin-bottom: 3rem;
+  max-width: 560px;
+  line-height: 1.7;
+}
+
+/* Scroll animation */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── COURSES BENTO GRID ─────────────────────────────────────── */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.course-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 2rem 1.75rem;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+  text-decoration: none;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border: 1px solid var(--border);
+}
+
+.course-card.purple { border-color: rgba(124,58,237,0.3); }
+.course-card.cyan   { border-color: rgba(0,212,255,0.3); }
+.course-card.pink   { border-color: rgba(247,37,133,0.3); }
+
+.course-card.purple:hover { box-shadow: 0 0 40px rgba(124,58,237,0.35); border-color: rgba(124,58,237,0.6); transform: translateY(-4px) scale(1.02); }
+.course-card.cyan:hover   { box-shadow: 0 0 40px rgba(0,212,255,0.3); border-color: rgba(0,212,255,0.6); transform: translateY(-4px) scale(1.02); }
+.course-card.pink:hover   { box-shadow: 0 0 40px rgba(247,37,133,0.3); border-color: rgba(247,37,133,0.6); transform: translateY(-4px) scale(1.02); }
+
+.course-card.dimmed { opacity: 0.45; cursor: not-allowed; }
+.course-card.dimmed:hover { transform: none; box-shadow: none; }
+
+.course-icon { font-size: 2.5rem; line-height: 1; }
+
+.course-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(124,58,237,0.12);
+  border: 1px solid rgba(124,58,237,0.25);
+  color: #A78BFA;
+  padding: 0.25rem 0.7rem;
+  border-radius: 50px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  width: fit-content;
+}
+.course-card.cyan .course-badge   { background: rgba(0,212,255,0.1); border-color: rgba(0,212,255,0.25); color: #67E8F9; }
+.course-card.pink .course-badge   { background: rgba(247,37,133,0.1); border-color: rgba(247,37,133,0.25); color: #F9A8D4; }
+.course-badge.soon { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: var(--text-muted); }
+
+.course-title { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.01em; }
+
+.course-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; flex: 1; }
+
+.course-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #A78BFA;
+  margin-top: 0.5rem;
+  transition: var(--transition);
+}
+.course-card.cyan .course-cta { color: #38BDF8; }
+.course-card.pink .course-cta { color: #F9A8D4; }
+.course-card:hover .course-cta { gap: 0.6rem; }
+
+/* ── FEATURES GRID ──────────────────────────────────────────── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.feature-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem 1.75rem;
+  transition: var(--transition);
+}
+.feature-card:hover {
+  border-color: rgba(124,58,237,0.3);
+  box-shadow: 0 0 30px rgba(124,58,237,0.15);
+  transform: translateY(-3px);
+}
+
+.feature-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+
+.feature-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.feature-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; }
+
+/* ── FOOTER ─────────────────────────────────────────────────── */
+.footer {
+  position: relative;
+  z-index: 1;
+  padding: 3rem 2rem 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-logo {
+  font-size: 1.2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #7C3AED, #00D4FF, #F72585);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.footer-tagline { color: var(--text-muted); font-size: 0.875rem; margin-top: 0.25rem; }
+.footer-copy { color: var(--text-muted); font-size: 0.8rem; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .hero-container { grid-template-columns: 1fr; gap: 2.5rem; }
+  .hero-right { max-width: 560px; margin: 0 auto; }
+  .code-card { transform: none; }
+  .bento-grid { grid-template-columns: repeat(2, 1fr); }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .navbar { padding: 0 1rem; }
+  .nav-cta { display: none; }
+  .hero { padding: 5rem 1.25rem 3rem; }
+  .section { padding: 3.5rem 1.25rem; }
+  .bento-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .footer-container { flex-direction: column; text-align: center; }
+  .footer-right { text-align: center; }
+}
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-logo"><i class="fa-solid fa-infinity"></i> Endless Learn</div>
+<!-- Animated background blobs -->
+<div class="blob-container" aria-hidden="true">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<!-- ── NAVBAR ──────────────────────────────────────────────────── -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">&#8734; EndlessLearn</a>
   <div class="nav-right">
-    <span class="nav-badge">v1.0</span>
-    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">
-      <i class="fa-solid fa-moon" id="themeIcon"></i>
-    </button>
+    <a href="java.html" class="nav-cta">Start Learning &rarr;</a>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">&#9790;</button>
   </div>
 </nav>
 
-<div class="hero">
-  <div class="hero-tag"><i class="fa-solid fa-graduation-cap"></i> Free Learning Platform</div>
-  <h1>Master Programming<br/>with <span>Endless Learn</span></h1>
-  <p>Comprehensive courses on Java, Advanced Java, DSA, Python, JavaScript and more — with examples, explanations and structured learning paths.</p>
-  <div class="hero-stats">
-    <div class="hs"><div class="n">47+</div><div class="l">Topics</div></div>
-    <div class="hs"><div class="n">200+</div><div class="l">Examples</div></div>
-    <div class="hs"><div class="n">3</div><div class="l">Courses</div></div>
-    <div class="hs"><div class="n">Free</div><div class="l">Forever</div></div>
-  </div>
-</div>
-
-<div style="padding:0 24px 48px;max-width:1200px;margin:0 auto">
-  <div class="search-wrap">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <input type="text" id="searchInput" placeholder="Search courses..." oninput="filterCourses(this.value)"/>
-  </div>
-
-  <div style="padding:0 0 16px">
-    <div class="section-label">// available courses</div>
-    <div class="section-title">Choose Your <span style="color:var(--primary)">Learning Path</span></div>
-  </div>
-
-  <div class="grid" id="courseGrid">
-
-    <a href="java.html" class="course-card" style="--c:#6C63FF" data-name="Java Core Language">
-      <div class="card-icon" style="background:rgba(108,99,255,.15);color:#6C63FF"><i class="fa-brands fa-java"></i></div>
-      <div class="card-title">Java</div>
-      <div class="card-desc">Start from zero to hero. Variables, OOP, Collections, Exception Handling, Generics and Java 8+ features with real examples.</div>
-      <div class="card-meta">
-        <span class="card-topics"><i class="fa-solid fa-book-open" style="margin-right:4px"></i>20 Topics</span>
-        <span class="card-badge badge-available">Available</span>
+<!-- ── HERO ────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-container">
+    <div class="hero-left">
+      <div class="hero-badge">&#128640; Free Java Mastery</div>
+      <h1 class="hero-title">Learn Java<br>Like a Senior Dev.</h1>
+      <p class="hero-sub">From basics to microservices — structured, practical, no fluff. Built for devs who actually ship.</p>
+      <div class="hero-btns">
+        <a href="java.html" class="btn-primary">Start Java Course &rarr;</a>
+        <a href="#courses" class="btn-ghost">Browse Topics</a>
       </div>
-    </a>
-
-    <a href="java.html#adv" class="course-card" style="--c:#EC4899" data-name="Advanced Java Spring Boot">
-      <div class="card-icon" style="background:rgba(236,72,153,.15);color:#EC4899"><i class="fa-solid fa-layer-group"></i></div>
-      <div class="card-title">Advanced Java</div>
-      <div class="card-desc">Multithreading, JDBC, Servlets, Spring Boot, Spring MVC, Spring Security, REST APIs and Microservices architecture.</div>
-      <div class="card-meta">
-        <span class="card-topics"><i class="fa-solid fa-book-open" style="margin-right:4px"></i>12 Topics</span>
-        <span class="card-badge badge-available">Available</span>
+      <div class="hero-stats">
+        <span class="stat-pill">47 Topics</span>
+        <span class="stat-pill">200+ Examples</span>
+        <span class="stat-pill">3 Courses</span>
+        <span class="stat-pill">100% Free</span>
       </div>
-    </a>
+    </div>
 
-    <a href="java.html#dsa" class="course-card" style="--c:#F59E0B" data-name="Data Structures Algorithms DSA">
-      <div class="card-icon" style="background:rgba(245,158,11,.15);color:#F59E0B"><i class="fa-solid fa-sitemap"></i></div>
-      <div class="card-title">DSA</div>
-      <div class="card-desc">Arrays, Linked Lists, Trees, Graphs, Sorting, Searching, Dynamic Programming and all classic DSA problems in Java.</div>
-      <div class="card-meta">
-        <span class="card-topics"><i class="fa-solid fa-book-open" style="margin-right:4px"></i>15 Topics</span>
-        <span class="card-badge badge-available">Available</span>
+    <div class="hero-right">
+      <div class="code-card">
+        <div class="code-titlebar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          <span class="code-filename">Main.java</span>
+        </div>
+        <div class="code-body">
+          <div class="code-line"><span class="ln">1</span><span class="cm">// EndlessLearn — Java in action</span></div>
+          <div class="code-line"><span class="ln">2</span><span class="kw">import</span> <span class="code-plain">java.util.List;</span></div>
+          <div class="code-line"><span class="ln">3</span><span class="code-plain">&nbsp;</span></div>
+          <div class="code-line"><span class="ln">4</span><span class="kw">public class</span> <span class="tp">Main</span> <span class="code-plain">{</span></div>
+          <div class="code-line"><span class="ln">5</span><span class="code-plain">&nbsp;&nbsp;<span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {</span></div>
+          <div class="code-line"><span class="ln">6</span><span class="code-plain">&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">var</span> skills = List.of(</span></div>
+          <div class="code-line"><span class="ln">7</span><span class="code-plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"OOP"</span>, <span class="str">"Spring Boot"</span>, <span class="str">"DSA"</span></span></div>
+          <div class="code-line"><span class="ln">8</span><span class="code-plain">&nbsp;&nbsp;&nbsp;&nbsp;);</span></div>
+          <div class="code-line"><span class="ln">9</span><span class="code-plain">&nbsp;</span></div>
+          <div class="code-line"><span class="ln">10</span><span class="code-plain">&nbsp;&nbsp;&nbsp;&nbsp;skills.<span class="fn">forEach</span>(skill -&gt;</span></div>
+          <div class="code-line"><span class="ln">11</span><span class="code-plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tp">System</span>.out.<span class="fn">println</span>(</span></div>
+          <div class="code-line"><span class="ln">12</span><span class="code-plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"&#10003; Mastered: "</span> + skill)</span></div>
+          <div class="code-line"><span class="ln">13</span><span class="code-plain">&nbsp;&nbsp;&nbsp;&nbsp;);</span></div>
+          <div class="code-line"><span class="ln">14</span><span class="code-plain">&nbsp;&nbsp;}</span></div>
+          <div class="code-line"><span class="ln">15</span><span class="code-plain">}</span></div>
+          <div class="code-line"><span class="ln">16</span><span class="cm">// &#10003; Mastered: OOP</span></div>
+          <div class="code-line"><span class="ln">17</span><span class="cm">// &#10003; Mastered: Spring Boot</span></div>
+          <div class="code-line"><span class="ln">18</span><span class="cm">// &#10003; Mastered: DSA</span></div>
+        </div>
       </div>
-    </a>
-
-    <div class="course-card" style="--c:#10B981;cursor:default" data-name="Python Programming">
-      <div class="card-icon" style="background:rgba(16,185,129,.15);color:#10B981"><i class="fa-brands fa-python"></i></div>
-      <div class="card-title">Python</div>
-      <div class="card-desc">From basics to advanced Python — variables, OOP, file handling, libraries, Flask, Django and data science foundations.</div>
-      <div class="card-meta">
-        <span class="card-topics"><i class="fa-solid fa-book-open" style="margin-right:4px"></i>18 Topics</span>
-        <span class="card-badge badge-soon">Coming Soon</span>
-      </div>
-      <div class="cs-overlay"><span class="cs-label"><i class="fa-solid fa-clock"></i> Coming Soon</span></div>
-    </div>
-
-    <div class="course-card" style="--c:#F59E0B;cursor:default" data-name="JavaScript Frontend Web Development">
-      <div class="card-icon" style="background:rgba(245,158,11,.15);color:#F59E0B"><i class="fa-brands fa-js"></i></div>
-      <div class="card-title">JavaScript</div>
-      <div class="card-desc">ES6+, DOM manipulation, async/await, Promises, React basics, Node.js and full-stack JavaScript development.</div>
-      <div class="card-meta">
-        <span class="card-topics"><i class="fa-solid fa-book-open" style="margin-right:4px"></i>16 Topics</span>
-        <span class="card-badge badge-soon">Coming Soon</span>
-      </div>
-      <div class="cs-overlay"><span class="cs-label"><i class="fa-solid fa-clock"></i> Coming Soon</span></div>
-    </div>
-
-    <div class="course-card" style="--c:#3B82F6;cursor:default" data-name="SQL Database">
-      <div class="card-icon" style="background:rgba(59,130,246,.15);color:#3B82F6"><i class="fa-solid fa-database"></i></div>
-      <div class="card-title">SQL & Databases</div>
-      <div class="card-desc">MySQL, PostgreSQL, joins, indexes, transactions, stored procedures and database design principles.</div>
-      <div class="card-meta">
-        <span class="card-topics"><i class="fa-solid fa-book-open" style="margin-right:4px"></i>14 Topics</span>
-        <span class="card-badge badge-soon">Coming Soon</span>
-      </div>
-      <div class="cs-overlay"><span class="cs-label"><i class="fa-solid fa-clock"></i> Coming Soon</span></div>
-    </div>
-
-  </div>
-</div>
-
-<!-- FEATURES -->
-<div class="features">
-  <div class="section-label">// why endless learn</div>
-  <div class="section-title">Built for <span style="color:var(--primary)">Real Learning</span></div>
-  <div class="features-grid">
-    <div class="feat-card">
-      <div class="feat-icon" style="background:rgba(108,99,255,.15);color:#6C63FF"><i class="fa-solid fa-code"></i></div>
-      <div><div class="feat-title">Code Examples</div><div class="feat-desc">Every concept backed by real, runnable Java code examples with detailed explanations.</div></div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon" style="background:rgba(16,185,129,.15);color:#10B981"><i class="fa-solid fa-route"></i></div>
-      <div><div class="feat-title">Structured Path</div><div class="feat-desc">Topics arranged in the perfect order — beginner to advanced, no gaps in knowledge.</div></div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon" style="background:rgba(245,158,11,.15);color:#F59E0B"><i class="fa-solid fa-mobile-screen"></i></div>
-      <div><div class="feat-title">Mobile Friendly</div><div class="feat-desc">Learn on any device. Fully responsive design works perfectly on mobile, tablet and desktop.</div></div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon" style="background:rgba(236,72,153,.15);color:#EC4899"><i class="fa-solid fa-moon"></i></div>
-      <div><div class="feat-title">Dark & Light Mode</div><div class="feat-desc">Switch between dark and light themes for comfortable reading day or night.</div></div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon" style="background:rgba(59,130,246,.15);color:#3B82F6"><i class="fa-solid fa-arrows-left-right"></i></div>
-      <div><div class="feat-title">Easy Navigation</div><div class="feat-desc">Prev/Next buttons and topic index for smooth, distraction-free learning experience.</div></div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon" style="background:rgba(239,68,68,.15);color:#EF4444"><i class="fa-solid fa-gift"></i></div>
-      <div><div class="feat-title">Completely Free</div><div class="feat-desc">No signup, no payment, no ads. Pure learning — open to everyone forever.</div></div>
     </div>
   </div>
-</div>
+</section>
 
-<footer>
-  <p>Made with <i class="fa-solid fa-heart" style="color:#EF4444"></i> by <span>Endless</span> &nbsp;·&nbsp; &copy; 2025 Endless Learn &nbsp;·&nbsp; Free forever</p>
+<!-- ── COURSES ─────────────────────────────────────────────────── -->
+<section class="section" id="courses">
+  <div class="section-container">
+    <div class="fade-up">
+      <h2 class="section-title">Pick Your Path &#128640;</h2>
+      <p class="section-sub">Three battle-tested paths to go from zero to production-ready Java developer.</p>
+    </div>
+
+    <div class="bento-grid">
+      <a href="java.html" class="course-card purple fade-up" style="transition-delay:0.1s">
+        <span class="course-icon">&#9749;</span>
+        <span class="course-badge">Beginner &rarr; Pro</span>
+        <div class="course-title">Java Core</div>
+        <div class="course-desc">20 topics covering variables, OOP, collections, generics, Java 8+ features. The foundation every Java dev needs.</div>
+        <span class="course-cta">Start Now &rarr;</span>
+      </a>
+
+      <a href="java.html#adv-1" class="course-card cyan fade-up" style="transition-delay:0.15s">
+        <span class="course-icon">&#9889;</span>
+        <span class="course-badge">Advanced</span>
+        <div class="course-title">Advanced Java</div>
+        <div class="course-desc">12 topics: Spring Framework, Spring Boot, JDBC, REST APIs, Microservices, Spring Security. Production-grade skills.</div>
+        <span class="course-cta">Start Now &rarr;</span>
+      </a>
+
+      <a href="java.html#dsa-1" class="course-card pink fade-up" style="transition-delay:0.2s">
+        <span class="course-icon">&#129504;</span>
+        <span class="course-badge">Interview Prep</span>
+        <div class="course-title">DSA in Java</div>
+        <div class="course-desc">15 topics: Big O, trees, graphs, dynamic programming, sorting. Ace your next FAANG interview.</div>
+        <span class="course-cta">Start Now &rarr;</span>
+      </a>
+
+      <div class="course-card dimmed fade-up" style="transition-delay:0.25s">
+        <span class="course-icon">&#128013;</span>
+        <span class="course-badge soon">&#128338; Coming Soon</span>
+        <div class="course-title">Python</div>
+        <div class="course-desc">Data structures, OOP, async programming, Django basics. Full curriculum in development.</div>
+      </div>
+
+      <div class="course-card dimmed fade-up" style="transition-delay:0.3s">
+        <span class="course-icon">&#128249;</span>
+        <span class="course-badge soon">&#128338; Coming Soon</span>
+        <div class="course-title">JavaScript</div>
+        <div class="course-desc">ES6+, async/await, DOM manipulation, Node.js, React fundamentals. The full-stack companion.</div>
+      </div>
+
+      <div class="course-card dimmed fade-up" style="transition-delay:0.35s">
+        <span class="course-icon">&#128200;</span>
+        <span class="course-badge soon">&#128338; Coming Soon</span>
+        <div class="course-title">SQL</div>
+        <div class="course-desc">Queries, joins, indexes, transactions, stored procedures. Master relational databases.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ────────────────────────────────────────────────── -->
+<section class="section" id="features">
+  <div class="section-container">
+    <div class="fade-up">
+      <h2 class="section-title">Why EndlessLearn?</h2>
+      <p class="section-sub">No paywalls, no fluff, no nonsense. Clean, fast, practical learning built for working devs.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card fade-up" style="transition-delay:0.05s">
+        <span class="feature-icon">&#128187;</span>
+        <div class="feature-title">Real Code Examples</div>
+        <p class="feature-desc">Every concept ships with runnable, production-quality code you can study, copy, and deploy right now.</p>
+      </div>
+      <div class="feature-card fade-up" style="transition-delay:0.1s">
+        <span class="feature-icon">&#127763;</span>
+        <div class="feature-title">Dark &amp; Light Mode</div>
+        <p class="feature-desc">Easy on the eyes at 2 AM or in a bright office. Your preference is remembered across sessions.</p>
+      </div>
+      <div class="feature-card fade-up" style="transition-delay:0.15s">
+        <span class="feature-icon">&#128241;</span>
+        <div class="feature-title">Mobile Friendly</div>
+        <p class="feature-desc">Study on the bus, during lunch, anywhere. Fully responsive layout that doesn't break on small screens.</p>
+      </div>
+      <div class="feature-card fade-up" style="transition-delay:0.2s">
+        <span class="feature-icon">&#9881;</span>
+        <div class="feature-title">Topic Navigation</div>
+        <p class="feature-desc">Jump to any topic instantly, use keyboard arrows, or search the sidebar. Zero friction learning.</p>
+      </div>
+      <div class="feature-card fade-up" style="transition-delay:0.25s">
+        <span class="feature-icon">&#128640;</span>
+        <div class="feature-title">Beginner to Expert</div>
+        <p class="feature-desc">Structured paths from Hello World to Microservices. No gaps, no jumping around required.</p>
+      </div>
+      <div class="feature-card fade-up" style="transition-delay:0.3s">
+        <span class="feature-icon">&#127881;</span>
+        <div class="feature-title">Always Free</div>
+        <p class="feature-desc">No subscription, no premium tier, no credit card. Every topic, every example, free forever.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ──────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-logo">&#8734; EndlessLearn</div>
+      <div class="footer-tagline">Built for devs who mean business.</div>
+    </div>
+    <div class="footer-right">
+      <div class="footer-copy">&copy; 2026 EndlessLearn. All rights reserved.</div>
+    </div>
+  </div>
 </footer>
 
 <script>
-function toggleTheme(){
-  const h=document.documentElement;
-  const isDark=h.getAttribute('data-theme')==='dark';
-  h.setAttribute('data-theme',isDark?'light':'dark');
-  document.getElementById('themeIcon').className=isDark?'fa-solid fa-sun':'fa-solid fa-moon';
-  localStorage.setItem('el_theme',isDark?'light':'dark');
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  const newTheme = isDark ? 'light' : 'dark';
+  html.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  document.getElementById('themeToggle').innerHTML = newTheme === 'dark' ? '&#9790;' : '&#9728;';
 }
-// Load saved theme
-const saved=localStorage.getItem('el_theme');
-if(saved){document.documentElement.setAttribute('data-theme',saved);document.getElementById('themeIcon').className=saved==='light'?'fa-solid fa-sun':'fa-solid fa-moon';}
 
-function filterCourses(q){
-  const lq=q.toLowerCase();
-  document.querySelectorAll('.course-card').forEach(c=>{
-    const name=c.getAttribute('data-name')||'';
-    c.style.display=name.toLowerCase().includes(lq)||!q?'':'none';
+(function initTheme() {
+  const saved = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  document.getElementById('themeToggle').innerHTML = saved === 'dark' ? '&#9790;' : '&#9728;';
+})();
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
   });
-}
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
